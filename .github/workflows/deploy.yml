@@ -1,0 +1,41 @@
+name: Deploy EC2 with Terraform
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up AWS credentials
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Set up Terraform
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.4.6  # Choose the version of Terraform you want
+
+      # Initialize Terraform
+      - name: Terraform Init
+        run: terraform init
+
+      # Apply Terraform plan to create the EC2 instance
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+
+      # Output the public IP of the created EC2 instance
+      - name: Output EC2 Public IP
+        run: terraform output instance_public_ip
