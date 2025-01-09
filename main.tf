@@ -16,8 +16,8 @@ resource "aws_instance" "my_ec2" {
 
   user_data = <<-EOF
     #!/bin/bash
-    sudo apt update
-    sudo apt install -y nginx
+    sudo yum update
+    sudo yum install -y nginx
     sudo systemctl start nginx
     sudo systemctl enable nginx
   EOF
