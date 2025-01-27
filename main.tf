@@ -11,7 +11,7 @@ resource "aws_instance" "my_ec2" {
   subnet_id     = "subnet-098b4c66e13e11f87" # Update with your subnet ID
 
   tags = {
-    Name = "MyEC2GitHub"
+    Name = "MyEC2GitHuh1"
   }
 
   user_data = <<-EOF
